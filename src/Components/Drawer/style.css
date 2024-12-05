@@ -1,0 +1,28 @@
+.main {
+    flex-grow: 1;
+    padding: 24px;
+    transition: margin 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+    margin-left: -240px;
+  }
+  
+  .main.open {
+    transition: margin 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+    margin-left: 0;
+  }
+  
+  .app-bar {
+    transition: margin 0.3s cubic-bezier(0.4, 0, 0.6, 1), width 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+  }
+  
+  .app-bar.open {
+    width: calc(100% - 240px);
+    margin-left: 240px;
+  }
+  
+  .drawer-header {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    justify-content: flex-end;
+  }
+  
