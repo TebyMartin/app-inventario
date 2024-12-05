@@ -5,10 +5,10 @@ function Busqueda() {
   return (
     <div
       style={{
-        display: "flex", // Activa flexbox
-        justifyContent: "center", // Centra horizontalmente
-        alignItems: "center", // Centra verticalmente
-        height: "60vh", // Ocupa toda la altura de la pantalla
+        display: "flex", 
+        justifyContent: "center", 
+        alignItems: "center", 
+        height: "60vh", 
       }}
     >
       <div style={{ marginRight: "20px", width: "100%", marginLeft: "320px"  }}>
@@ -28,8 +28,8 @@ function Busqueda() {
           fullWidth
           style={{
             marginTop: "10px",
-            backgroundColor: "#A68C4C", // Cambia el color de fondo
-            color: "#fff", // Cambia el color del texto a blanco para contraste
+            backgroundColor: "#A68C4C", 
+            color: "#fff", 
           }}
         >
           BUSCAR

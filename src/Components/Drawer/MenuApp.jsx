@@ -16,7 +16,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { ListMenu } from '../ListMenu/ListMenu';
 import TableApp from '../TableApp/TableApp';
 import { NavLink, Outlet } from 'react-router-dom';
-import './style.css'; // Importamos los estilos desde el archivo CSS
+import './style.css'
 import ManageSearchSharpIcon from '@mui/icons-material/ManageSearchSharp';
 import FormatListBulletedSharpIcon from '@mui/icons-material/FormatListBulletedSharp';
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
