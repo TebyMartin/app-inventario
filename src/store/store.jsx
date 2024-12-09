@@ -7,7 +7,7 @@ const store = configureStore({
     stock: stockReducer,
     filteredBooks: procuctoReducer,
   },
-  // No necesitas agregar redux-thunk si usas `getDefaultMiddleware` que ya lo incluye
+  
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 

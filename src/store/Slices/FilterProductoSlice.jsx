@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseURL, productoURL, busquedaProducto } from "../../App";
 
-// Thunk para cargar todos los productos
+
 export const getProducts = createAsyncThunk(
   "filteredBooks/getProducts",
   async () => {
@@ -44,7 +44,7 @@ const filteredBooks = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Manejo de la acción para cargar productos
+      
       .addCase(getProducts.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -58,7 +58,7 @@ const filteredBooks = createSlice({
         state.error = action.error.message;
       })
       
-      // Manejo de la acción para obtener productos filtrados
+      
       .addCase(getFilteredBooks.pending, (state) => {
         state.isLoading = true;
         state.error = null;

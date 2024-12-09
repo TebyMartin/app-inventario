@@ -25,8 +25,8 @@ export function useProductoModal() {
     try {
       const response = await axios.put(`${baseURL}${productoURL}/${updatedProduct._id}`, updatedProduct);
       console.log("Producto actualizado:", response.data);
-      dispatch(fetchProductos()); // Recarga los datos
-      handleCloseEditModal(); // Cierra el modal
+      dispatch(fetchProductos()); 
+      handleCloseEditModal(); 
     } catch (error) {
       console.error("Error al actualizar el producto:", error);
     }

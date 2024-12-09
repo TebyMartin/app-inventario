@@ -16,14 +16,14 @@ function Modal({ open, selectedProduct, handleClose, handleUpdate }) {
   const [editedProduct, setEditedProduct] = useState(selectedProduct || {});
 
   const formatDateForInput = (dateString) => {
-    if (!dateString) return ''; // Si no hay fecha, devolver un valor vacío
+    if (!dateString) return ''; 
     const date = new Date(dateString);
-    if (isNaN(date)) return ''; // Si la fecha es inválida, devolver un valor vacío
-    return date.toISOString().split('T')[0]; // Devuelve la fecha en formato 'YYYY-MM-DD'
+    if (isNaN(date)) return ''; 
+    return date.toISOString().split('T')[0]; 
   };
 
   useEffect(() => {
-    setEditedProduct(selectedProduct || {}); // Sincroniza los datos al abrir el modal
+    setEditedProduct(selectedProduct || {}); 
   }, [selectedProduct]);
 
   const handleChange = (e) => {
@@ -32,7 +32,7 @@ function Modal({ open, selectedProduct, handleClose, handleUpdate }) {
   };
 
   const handleSubmit = () => {
-    handleUpdate(editedProduct); // Llama a la función para actualizar
+    handleUpdate(editedProduct); 
   };
 
   return (

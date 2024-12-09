@@ -7,7 +7,7 @@ import { fetchProductos, seleccionarProducto } from '../../store/Slices/StockSli
 import ChecklistOutlinedIcon from '@mui/icons-material/ChecklistOutlined';
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import Modal from '../Modal/Modal'; // Asegúrate de que este path sea correcto
+import Modal from '../Modal/Modal'; 
 import { useProductoModal } from '../../hooks/useProductoModal';
 
 const paginationModel = { page: 0, pageSize: 5 };
@@ -95,7 +95,7 @@ function TableApp({ searchQuery, filterType }) {
         sx={{ border: 0 }}
       />
       
-      {/* Dialog de eliminación */}
+     
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Confirmar Eliminación</DialogTitle>
         <DialogContent>
@@ -113,7 +113,7 @@ function TableApp({ searchQuery, filterType }) {
         </DialogActions>
       </Dialog>
 
-      {/* Modal de edición */}
+ 
       <Modal
         open={openEditModal}
         selectedProduct={selectedProduct}
