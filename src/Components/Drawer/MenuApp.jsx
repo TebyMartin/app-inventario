@@ -21,6 +21,7 @@ import ManageSearchSharpIcon from '@mui/icons-material/ManageSearchSharp';
 import FormatListBulletedSharpIcon from '@mui/icons-material/FormatListBulletedSharp';
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 
 
 
@@ -43,9 +44,9 @@ function MenuApp({children}) {
   const menu = [
     {
       id: 1,
-      titulo: "Busqueda de Productos",
+      titulo: "Productos Bajo Stock",
       path: "/",
-      icon: <ManageSearchSharpIcon />,
+      icon: <ProductionQuantityLimitsIcon />,
     },
     {
       id: 2,

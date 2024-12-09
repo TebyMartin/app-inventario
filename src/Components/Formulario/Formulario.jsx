@@ -5,9 +5,16 @@ import {
     Grid2,
     TextField,
     Typography,
+    Alert
+    
   } from "@mui/material";
   import ProductionQuantityLimitsSharpIcon from '@mui/icons-material/ProductionQuantityLimitsSharp';
+import { useForm } from "../../hooks/useFormulario";
+
+
 function Formulario() {
+  const { productoForm, handleChange, handleSubmit, alert, setAlert } = useForm()
+  const today = new Date().toISOString().split("T")[0];
   return (
     <Card style={{ maxWidth: "800px", width: "100%", alignSelf: "center" }}>
       <Grid2
@@ -15,6 +22,13 @@ function Formulario() {
         spacing={3}
         sx={{ display: "flex", flexDirection: "column", margin: "20px" }}
       >
+          {alert.show && (
+        <Grid2 item xs={12}>
+          <Alert variant="filled" severity={alert.severity}>
+            {alert.message}
+          </Alert>
+        </Grid2>
+          )}
         <Grid2 item xs={12}>
           <Typography variant="h5" gutterBottom>
             Nuevo producto
@@ -39,8 +53,8 @@ function Formulario() {
               variant="outlined"
               label="Nombre"
               name="nombre"
-            //   value={bookForm?.titulo}
-            //   onChange={(e) => handleChange(e)}
+              value={productoForm.nombre}
+              onChange={(e) => handleChange(e)}
             />
           </Grid2>
           <Grid2 item xs={3}>
@@ -50,8 +64,8 @@ function Formulario() {
               label="Cantidad"
               name="cantidad"
               type="number"
-            //   value={bookForm.autor}
-            //   onChange={(e) => handleChange(e)}
+              value={productoForm.cantidad}
+              onChange={(e) => handleChange(e)}
             />
           </Grid2>
         </Grid2>
@@ -61,8 +75,8 @@ function Formulario() {
             variant="outlined"
             label="Descripcion"
             name="descripcion"
-            // value={bookForm.categoria}
-            // onChange={(e) => handleChange(e)}
+            value={productoForm.descripcion}
+            onChange={(e) => handleChange(e)}
           />
         </Grid2>
         <Grid2 item xs={3}>
@@ -72,8 +86,8 @@ function Formulario() {
             label="Precio"
             name="precio"
             type="number"
-            // value={bookForm.estado}
-            // onChange={(e) => handleChange(e)}
+            value={productoForm.precio}
+            onChange={(e) => handleChange(e)}
           />
         </Grid2>
         <Grid2 item xs={3}>
@@ -82,8 +96,8 @@ function Formulario() {
             variant="outlined"
             label="Categoria"
             name="categoria"
-            // value={bookForm.estado}
-            // onChange={(e) => handleChange(e)}
+            value={productoForm.categoria}
+            onChange={(e) => handleChange(e)}
           />
         </Grid2>
         <Grid2 item xs={3}>
@@ -92,9 +106,11 @@ function Formulario() {
             variant="outlined"
             name="fechaIngreso"
             type="date"
-            // value={bookForm.estado}
-            // onChange={(e) => handleChange(e)}
+            InputProps={{ inputProps: { max: today } }}
+            value={productoForm.fechaIngreso}
+            onChange={(e) => handleChange(e)}
           />
+          
         </Grid2>
         <Grid2
           item
@@ -107,19 +123,20 @@ function Formulario() {
           }}
         >
           <Button
-  variant="contained"
-  style={{
-    backgroundColor: "#A68C4C", // Cambia el color de fondo
-    color: "#fff", // Cambia el color del texto
-    width: "100%", // Ajusta el botón al ancho del contenedor
-    display: "flex", // Activa flexbox en el botón
-    justifyContent: "center", // Centra horizontalmente el texto
-    alignItems: "center", // Centra verticalmente el texto
-    height: "50px", // Ajusta la altura del botón (opcional)
-  }}
->
-  Agregar
-</Button>
+          variant="contained"
+          onClick={handleSubmit}
+          style={{
+            backgroundColor: "#A68C4C",
+            color: "#fff", 
+            width: "100%", 
+            display: "flex", 
+            justifyContent: "center", 
+            alignItems: "center", 
+            height: "50px", 
+           }}
+            >
+              Agregar
+            </Button>
         </Grid2>
       </Grid2>
     </Card>

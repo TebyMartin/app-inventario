@@ -1,53 +1,81 @@
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
+import { eliminarSeleccionado, actualizarCantidad, actualizarStock } from '../../store/Slices/StockSlices';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, TextField } from '@mui/material'
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
-const columns = [
 
-  { field: 'nombre', headerName: 'Nombre', width: 130 },
-  { field: 'descripcion', headerName: 'Descripcion', width: 130 },
-  {
-    field: 'precio',
-    headerName: 'Precio',
-    type: 'number',
-    width: 90,
-  },
-  {
-    field: 'cantidad', headerName: 'Cantidad', width: 130 
-  },
-  {
-    field: 'categoria', headerName: 'Categoria', width: 130 
-  },
-  {
-    field: 'fechaIngreso', headerName: 'Fecha de Ingreso', width: 130 
-  },
-];
 
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
 
 const paginationModel = { page: 0, pageSize: 5 };
 
 function TableAppSecondary() {
+  const dispatch = useDispatch();
+  const { seleccionados } = useSelector((state) => state.stock);
+
+
+  const columns = [
+    { field: "nombre", headerName: "Nombre", width: 200 },
+    {
+      field: "cantidad",
+      headerName: "Nueva Cantidad",
+      renderCell: (params) => (
+        <TextField
+          type="number"
+          value={params.row.cantidad}
+          variant="standard" 
+          onChange={(e) =>
+            dispatch(
+              actualizarCantidad({ _id: params.row._id, cantidad: e.target.value })
+            )
+          }
+        />
+      ),
+      width: 150,
+    },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      renderCell: (params) => (
+        <Button  onClick={() => dispatch(eliminarSeleccionado(params.row._id))}  color="error">
+          <DeleteOutlineOutlinedIcon/>
+        </Button >
+      ),
+      width: 150,
+    },
+  ];
+  const handleActualizarStock = () => {
+    if (seleccionados.length === 0) {
+      alert("No hay productos seleccionados para actualizar.");
+      return;
+    }
+    dispatch(actualizarStock(seleccionados));
+  };
   return (
+    <>
     <Paper sx={{ height: 400, width: '100%', display: 'flex', justifyContent: 'center', margin: 'auto' }}>
     <DataGrid
-      rows={rows}
-      columns={columns}
+      rows={seleccionados}
+        columns={columns}
+        getRowId={(row) => row._id}
       initialState={{ pagination: { paginationModel } }}
       pageSizeOptions={[5, 10]}
       checkboxSelection
       sx={{ border: 0 }}
-    />
-  </Paper>
+      />
+    
+    </Paper>
+    <Button variant="contained" onClick={handleActualizarStock}  style={{
+            backgroundColor: "#A68C4C",
+            color: "#fff", 
+            width: "100%", 
+            display: "flex", 
+            justifyContent: "center", 
+            alignItems: "center", 
+            height: "50px", 
+           }}>Actualizar Stock</Button>
+     </>
   )
 }
 
