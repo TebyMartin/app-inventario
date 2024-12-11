@@ -16,7 +16,7 @@ function TableApp({ searchQuery, filterType }) {
   const dispatch = useDispatch();
   const { productos } = useSelector((state) => state.stock);
 
-  // Usamos el custom hook
+
   const {
     openEditModal,
     selectedProduct,
@@ -85,17 +85,39 @@ function TableApp({ searchQuery, filterType }) {
   ];
 
   return (
-    <Paper sx={{ height: 400, width: '100%', display: 'flex', justifyContent: 'center', margin: 'auto' }}>
+    <Paper sx={{
+      height: 400,
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      margin: 'auto',
+      padding: 2, 
+      borderRadius: 2,
+      overflowX: 'auto',
+      '@media (max-width: 600px)': {
+        height: 'auto', 
+        padding: 1, 
+      }
+    }}>
       <DataGrid
         rows={filteredProducts}
         columns={columns}
         getRowId={(row) => row._id}
         initialState={{ pagination: { paginationModel } }}
         pageSizeOptions={[5, 10]}
-        sx={{ border: 0 }}
+        sx={{
+          border: 0,
+          width: '100%', 
+          maxHeight: 400, 
+          '@media (max-width: 600px)': {
+            maxWidth: '100%', 
+            height: 'auto', 
+          }
+        }}
+        autoHeight 
       />
       
-     
+   
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Confirmar Eliminación</DialogTitle>
         <DialogContent>
@@ -113,7 +135,7 @@ function TableApp({ searchQuery, filterType }) {
         </DialogActions>
       </Dialog>
 
- 
+     
       <Modal
         open={openEditModal}
         selectedProduct={selectedProduct}

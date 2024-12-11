@@ -54,7 +54,7 @@ function TableAppSecondary() {
   };
   return (
     <>
-    <Paper sx={{ height: 400, width: '100%', display: 'flex', justifyContent: 'center', margin: 'auto' }}>
+    <Paper sx={{ height: 400, width: '100%', display: 'flex', justifyContent: 'center', margin: 'auto',position: "relative", left: "-150px"  }}>
     <DataGrid
       rows={seleccionados}
         columns={columns}
@@ -74,6 +74,7 @@ function TableAppSecondary() {
             justifyContent: "center", 
             alignItems: "center", 
             height: "50px", 
+            position: "relative", left: "-150px" 
            }}>Actualizar Stock</Button>
      </>
   )

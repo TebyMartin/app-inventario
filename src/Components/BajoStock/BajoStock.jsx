@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Typography, CircularProgress, Alert, Button, Paper } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { baseURL, productoBajoStock } from "../../App";
+
+
 
 const ProductosBajoStock = () => {
   const [productos, setProductos] = useState([]);
@@ -12,7 +13,7 @@ const ProductosBajoStock = () => {
   useEffect(() => {
     const fetchProductosBajoStock = async () => {
       try {
-        const response = await axios.get(`${baseURL}${productoBajoStock}`);
+        const response = await axios.get("https://inventariostock-api.vercel.app/api/producto/stock/bajo-stock");
         setProductos(response.data);
       } catch (err) {
         setError(
@@ -37,24 +38,29 @@ const ProductosBajoStock = () => {
       <Typography
         variant="h6"
         gutterBottom
-
-        sx={{ fontWeight: "bold", textAlign: "center", color: "#A68C4C" }}
+        sx={{
+          fontWeight: "bold",
+          textAlign: "center",
+          color: "#A68C4C",
+          position: "relative",
+          left: { xs: 0, md: "--10pxpx" }, 
+          fontSize: { xs: "1.2rem", sm: "1.5rem", md: "1.8rem" }, 
+        }}
       >
         Productos con Bajo Stock
       </Typography>
 
       {loading ? (
         <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '60vh',
-          
-        }}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60vh",
+          }}
         >
-        <CircularProgress /> 
-      </Box>
+          <CircularProgress />
+        </Box>
       ) : error ? (
         <Alert severity="error">{error}</Alert>
       ) : productos.length === 0 ? (
@@ -64,11 +70,14 @@ const ProductosBajoStock = () => {
           <Paper
             sx={{
               height: 400,
-              width: "50%",
+              width: { xs: "90%", sm: "80%", md: "70%" }, 
               display: "flex",
               justifyContent: "center",
               margin: "auto",
               borderRadius: 2,
+              position: "relative",
+              left: { xs: 0, md: "-10px" }, 
+              overflowX: "auto", 
             }}
           >
             <DataGrid
@@ -79,10 +88,10 @@ const ProductosBajoStock = () => {
               rowsPerPageOptions={[5, 10, 20]}
               sx={{
                 border: 0,
+                width: "100%", 
               }}
             />
           </Paper>
-          
         </>
       )}
     </Box>

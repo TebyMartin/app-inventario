@@ -1,5 +1,6 @@
 import ProductosBajoStock from "../../Components/BajoStock/BajoStock"
 import { Box } from "@mui/material"
+
 function BajoStock() {
   return (
     <Box
@@ -10,7 +11,8 @@ function BajoStock() {
       width: "100%",
     }}
   >
-    <ProductosBajoStock/>
+      <ProductosBajoStock />
+      
 </Box>
   )
 }

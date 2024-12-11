@@ -12,16 +12,14 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import StarIcon from "@mui/icons-material/Star";
 import { ListMenu } from '../ListMenu/ListMenu';
-import TableApp from '../TableApp/TableApp';
 import { NavLink, Outlet } from 'react-router-dom';
-import './style.css'
-import ManageSearchSharpIcon from '@mui/icons-material/ManageSearchSharp';
 import FormatListBulletedSharpIcon from '@mui/icons-material/FormatListBulletedSharp';
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
+import Footer from '../Footer/Footer';
+import './style.css'
 
 
 
@@ -75,7 +73,7 @@ function MenuApp({children}) {
         position="fixed"
         className={`app-bar ${open ? 'open' : ''}`}
         sx={{
-            backgroundColor: '#A68C4C', // Cambia a tu color deseado (HEX, RGB, etc.)
+            backgroundColor: '#A68C4C', 
           }}
       >
         <Toolbar>
@@ -127,11 +125,28 @@ function MenuApp({children}) {
                 </NavLink>
               </>
             ))}
-          </List>
+        </List>
+        
+                  <Box sx={{
+            width: '100%',
+            padding: 2,
+            textAlign: 'center',
+            position: 'absolute',
+            bottom: 0,
+          }}>
+            <Footer />
+          </Box>
+     
       </Drawer>
+      
       {children}
-      <Outlet/>
+      <Outlet />
+
+      
+      
+      
     </Box>
+    
   );
 }
 
