@@ -20,36 +20,48 @@ export const actualizarStock = createAsyncThunk(
   async (productosSeleccionados, { rejectWithValue, dispatch }) => {
     try {
       const url = `${baseURL}${actualizarProducto}`;
-      console.log(url);
-      
-      const response = await axios.put(
-        url,
-        productosSeleccionados
-      );
-      dispatch(fetchProductos()); 
+      const response = await axios.put(url, productosSeleccionados);
+      dispatch(fetchProductos());
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
+
 export const eliminarProducto = createAsyncThunk(
   "stock/eliminarProducto",
   async (id, { rejectWithValue, dispatch }) => {
     try {
-      
       await axios.delete(`${baseURL}${productoURL}/${id}`);
-      
-    
       dispatch(fetchProductos());
-      return id; 
+      return id;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
-// Slice
+
+const handleAsyncActions = (builder, thunk, fulfilledHandler = null) => {
+  builder
+    .addCase(thunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(thunk.fulfilled, (state, action) => {
+      state.loading = false;
+      if (fulfilledHandler) {
+        fulfilledHandler(state, action);
+      }
+    })
+    .addCase(thunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+};
+
+
 const stockSlice = createSlice({
   name: "stock",
   initialState: {
@@ -79,46 +91,20 @@ const stockSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchProductos.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchProductos.fulfilled, (state, action) => {
-        state.loading = false;
-        state.productos = action.payload;
-      })
-      .addCase(fetchProductos.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      .addCase(eliminarProducto.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(eliminarProducto.fulfilled, (state, action) => {
-        state.loading = false;
-        state.productos = state.productos.filter(
-          (producto) => producto._id !== action.payload
-        );
-      })
-      .addCase(eliminarProducto.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      .addCase(actualizarStock.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(actualizarStock.fulfilled, (state) => {
-        state.loading = false;
-        state.seleccionados = [];
-      })
-      .addCase(actualizarStock.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
-  }
+    handleAsyncActions(builder, fetchProductos, (state, action) => {
+      state.productos = action.payload;
+    });
+
+    handleAsyncActions(builder, eliminarProducto, (state, action) => {
+      state.productos = state.productos.filter(
+        (producto) => producto._id !== action.payload
+      );
+    });
+
+    handleAsyncActions(builder, actualizarStock, (state) => {
+      state.seleccionados = [];
+    });
+  },
 });
 
 export const {

@@ -1,7 +1,7 @@
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Box } from '@mui/material';
 import { useEffect } from 'react';
 import { fetchProductos, seleccionarProducto } from '../../store/Slices/StockSlices';
 import ChecklistOutlinedIcon from '@mui/icons-material/ChecklistOutlined';
@@ -9,13 +9,17 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Modal from '../Modal/Modal'; 
 import { useProductoModal } from '../../hooks/useProductoModal';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom';
+
 
 const paginationModel = { page: 0, pageSize: 5 };
 
 function TableApp({ searchQuery, filterType }) {
   const dispatch = useDispatch();
   const { productos } = useSelector((state) => state.stock);
-
+  const navigate = useNavigate();
 
   const {
     openEditModal,
@@ -30,11 +34,12 @@ function TableApp({ searchQuery, filterType }) {
     handleConfirmDelete,
   } = useProductoModal();
 
+ 
   const filteredProducts = productos.filter((producto) => {
     if (filterType === "nombre") {
       return producto.nombre.toLowerCase().includes(searchQuery.toLowerCase());
     }
-    return true; 
+    return true;
   });
 
   useEffect(() => {
@@ -48,6 +53,21 @@ function TableApp({ searchQuery, filterType }) {
       month: '2-digit',
       day: '2-digit',
     });
+  };
+
+  const handleChecklistClick = (producto) => {
+    toast.info(`Agregado "${producto.nombre}". Carga los productos que necesiten actualizacion de stock y cuando termines  aprieta el boton  debajo.`, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+    dispatch(seleccionarProducto(producto)); 
+  };
+  const handleRedirect = () => {
+    navigate("/cargacontenido"); 
   };
 
   const columns = [
@@ -69,13 +89,22 @@ function TableApp({ searchQuery, filterType }) {
       headerName: "Acciones",
       renderCell: (params) => (
         <div style={{ display: 'flex', gap: '8px' }}>
-          <Button onClick={() => dispatch(seleccionarProducto(params.row))} color="success">
+          <Button
+            onClick={() => handleChecklistClick(params.row)} 
+            color="success"
+          >
             <ChecklistOutlinedIcon />
           </Button>
-          <IconButton onClick={() => handleOpenEditModal(params.row)} color="default">
+          <IconButton
+            onClick={() => handleOpenEditModal(params.row)}
+            color="default"
+          >
             <EditIcon style={{ color: 'gray' }} />
           </IconButton>
-          <IconButton onClick={() => handleOpenDialog(params.row._id)} color="error">
+          <IconButton
+            onClick={() => handleOpenDialog(params.row._id)}
+            color="error"
+          >
             <DeleteIcon />
           </IconButton>
         </div>
@@ -86,9 +115,10 @@ function TableApp({ searchQuery, filterType }) {
 
   return (
     <Paper sx={{
-      height: 400,
+      height: 'auto',
       width: '100%',
       display: 'flex',
+      flexDirection: 'column', // Asegura que los elementos dentro de Paper estén en columna
       justifyContent: 'center',
       margin: 'auto',
       padding: 2, 
@@ -105,6 +135,7 @@ function TableApp({ searchQuery, filterType }) {
         getRowId={(row) => row._id}
         initialState={{ pagination: { paginationModel } }}
         pageSizeOptions={[5, 10]}
+        checkboxSelection
         sx={{
           border: 0,
           width: '100%', 
@@ -112,12 +143,22 @@ function TableApp({ searchQuery, filterType }) {
           '@media (max-width: 600px)': {
             maxWidth: '100%', 
             height: 'auto', 
-          }
+          },
         }}
-        autoHeight 
+        
       />
+      <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
+        <Button variant="contained" color="primary "  style={{
+              backgroundColor: "#A68C4C",
+              color: "#fff",
+              width: "100%",
+              height: "50px",
+            }}size="large" onClick={handleRedirect} >
+          Ir a Carga de Cantidades
+        </Button>
+      </Box>
+        <ToastContainer/>
       
-   
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Confirmar Eliminación</DialogTitle>
         <DialogContent>
@@ -135,7 +176,7 @@ function TableApp({ searchQuery, filterType }) {
         </DialogActions>
       </Dialog>
 
-     
+
       <Modal
         open={openEditModal}
         selectedProduct={selectedProduct}

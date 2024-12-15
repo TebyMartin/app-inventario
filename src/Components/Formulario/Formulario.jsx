@@ -5,6 +5,7 @@ import {
   Grid2,
   TextField,
   Typography,
+  Snackbar,
   Alert
 } from "@mui/material";
 import ProductionQuantityLimitsSharpIcon from "@mui/icons-material/ProductionQuantityLimitsSharp";
@@ -34,12 +35,22 @@ function Formulario() {
         }}
       >
         {alert.show && (
-          <Grid2 item xs={12}>
-            <Alert variant="filled" severity={alert.severity}>
+          <Snackbar
+            open={alert.show}
+            autoHideDuration={3000}
+            onClose={() => setAlert({ show: false, message: "", severity: "" })}
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}  
+          >
+            <Alert
+              onClose={() => setAlert({ show: false, message: "", severity: "" })}
+              severity={alert.severity}
+              sx={{ width: "100%" }}
+            >
               {alert.message}
             </Alert>
-          </Grid2>
+          </Snackbar>
         )}
+
         <Grid2 item xs={12} textAlign="center">
           <Typography variant="h5" gutterBottom>
             Nuevo producto
@@ -75,16 +86,14 @@ function Formulario() {
             <TextField
               fullWidth
               variant="outlined"
-              label="Descripción"
-              name="descripcion"
-              multiline
-              rows={3} 
-              maxRows={5}
-              
-              value={productoForm.descripcion}
+              name="fechaIngreso"
+              type="date"
+              InputProps={{ inputProps: { max: today } }}
+              value={productoForm.fechaIngreso}
               onChange={(e) => handleChange(e)}
             />
           </Grid2>
+       
           <Grid2 item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -110,15 +119,16 @@ function Formulario() {
             <TextField
               fullWidth
               variant="outlined"
-              name="fechaIngreso"
-              type="date"
-              InputProps={{ inputProps: { max: today } }}
-              value={productoForm.fechaIngreso}
+              label="Descripción"
+              name="descripcion"
+              multiline
+              rows={3} 
+              maxRows={5}
+              value={productoForm.descripcion}
               onChange={(e) => handleChange(e)}
             />
           </Grid2>
         </Grid2>
-        {/* Botón */}
         <Grid2
           item
           xs={12}

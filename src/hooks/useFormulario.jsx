@@ -1,5 +1,6 @@
 import { useState } from "react";
 import postProducto from "../services/postProducto.js";
+import { Snackbar, Alert } from "@mui/material";
 
 export const useForm = () => {
   const [productoForm, setProductoForm] = useState({
@@ -11,7 +12,11 @@ export const useForm = () => {
     fechaIngreso: "",
   });
 
-  const [alert, setAlert] = useState({ show: false, message: "", severity: "" });
+  const [alert, setAlert] = useState({
+    show: false,
+    message: "",
+    severity: "",
+  });
 
   const handleChange = (e) => {
     setProductoForm({ ...productoForm, [e.target.name]: e.target.value });
@@ -32,12 +37,11 @@ export const useForm = () => {
         severity: "warning",
       });
 
-    
       setTimeout(() => {
         setAlert({ show: false, message: "", severity: "" });
       }, 3000);
 
-      return; 
+      return;
     }
 
     try {
@@ -50,12 +54,10 @@ export const useForm = () => {
         severity: "success",
       });
 
-      
       setTimeout(() => {
         setAlert({ show: false, message: "", severity: "" });
       }, 3000);
 
-      
       setProductoForm({
         nombre: "",
         descripcion: "",
@@ -76,5 +78,25 @@ export const useForm = () => {
     }
   };
 
-  return { productoForm, handleChange, handleSubmit, alert };
+  return {
+    productoForm,
+    handleChange,
+    handleSubmit,
+    alert,
+    Snackbar: (
+      <Snackbar
+        open={alert.show}
+        autoHideDuration={3000}
+        onClose={() => setAlert({ show: false, message: "", severity: "" })}
+      >
+        <Alert
+          onClose={() => setAlert({ show: false, message: "", severity: "" })}
+          severity={alert.severity}
+          sx={{ width: "100%" }}
+        >
+          {alert.message}
+        </Alert>
+      </Snackbar>
+    ),
+  };
 };

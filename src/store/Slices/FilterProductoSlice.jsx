@@ -4,7 +4,7 @@ import { baseURL, productoURL, busquedaProducto } from "../../App";
 
 
 export const getProducts = createAsyncThunk(
-  "filteredBooks/getProducts",
+  "filteredProductos/getProducts",
   async () => {
     try {
       const response = await axios.get(`${baseURL}${productoURL}`);
@@ -16,10 +16,9 @@ export const getProducts = createAsyncThunk(
 );
 
 
-export const getFilteredBooks = createAsyncThunk(
-  "filteredBooks/getFilteredBooks",
+export const getFilteredProductos = createAsyncThunk(
+  "filteredProductos/getFilteredProductos",
   async (payload, thunkAPI) => {
-    console.log(payload);
     try {
       const paramFilter = payload.filterType;
       const response = await axios.get(`${baseURL}${busquedaProducto}`, {
@@ -34,8 +33,25 @@ export const getFilteredBooks = createAsyncThunk(
   }
 );
 
-const filteredBooks = createSlice({
-  name: "filteredBooks",
+
+const handleAsyncActions = (builder, thunk) => {
+  builder
+    .addCase(thunk.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    })
+    .addCase(thunk.fulfilled, (state, action) => {
+      state.data = action.payload;
+      state.isLoading = false;
+    })
+    .addCase(thunk.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message;
+    });
+};
+
+const filteredProductos = createSlice({
+  name: "filteredProductos",
   initialState: {
     data: [],
     isLoading: false,
@@ -43,35 +59,9 @@ const filteredBooks = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      
-      .addCase(getProducts.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(getProducts.fulfilled, (state, action) => {
-        state.data = action.payload;
-        state.isLoading = false;
-      })
-      .addCase(getProducts.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message;
-      })
-      
-      
-      .addCase(getFilteredBooks.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(getFilteredBooks.fulfilled, (state, action) => {
-        state.data = action.payload;
-        state.isLoading = false;
-      })
-      .addCase(getFilteredBooks.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message;
-      });
+    handleAsyncActions(builder, getProducts);
+    handleAsyncActions(builder, getFilteredProductos);
   },
 });
 
-export default filteredBooks.reducer;
+export default filteredProductos.reducer;

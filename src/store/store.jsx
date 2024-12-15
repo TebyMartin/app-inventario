@@ -5,7 +5,7 @@ import procuctoReducer from "./Slices/FilterProductoSlice";
 const store = configureStore({
   reducer: {
     stock: stockReducer,
-    filteredBooks: procuctoReducer,
+    filteredProductos: procuctoReducer,
   },
   
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),

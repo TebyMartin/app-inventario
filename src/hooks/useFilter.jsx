@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { getProducts, getFilteredBooks } from "../store/Slices/FilterProductoSlice";
+import { getProducts, getFilteredProductos } from "../store/Slices/FilterProductoSlice";
 import * as XLSX from "xlsx";
 
 export const useFilters = () => {
   const dispatch = useDispatch();
-  const { data, isLoading, error } = useSelector((state) => state.filteredBooks);
+  const { data, isLoading, error } = useSelector((state) => state.filteredProductos);
 
   
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,7 +19,7 @@ export const useFilters = () => {
   useEffect(() => {
    
     if (searchQuery && filterType) {
-      dispatch(getFilteredBooks({ searchQuery, filterType }));
+      dispatch(getFilteredProductos({ searchQuery, filterType }));
     }
   }, [searchQuery, filterType, dispatch]);
 
