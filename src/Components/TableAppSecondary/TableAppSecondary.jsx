@@ -2,8 +2,9 @@ import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { eliminarSeleccionado, actualizarCantidad, actualizarStock } from '../../store/Slices/StockSlices';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, TextField } from '@mui/material'
+import { Alert, Button, Snackbar, TextField } from '@mui/material'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import { useState } from 'react';
 
 
 
@@ -12,7 +13,12 @@ const paginationModel = { page: 0, pageSize: 5 };
 
 function TableAppSecondary() {
   const dispatch = useDispatch();
-  const { seleccionados } = useSelector((state) => state.stock);
+  const { seleccionados } = useSelector((state) => state.stock)
+   const [alert, setAlert] = useState({
+      show: false,
+      message: "",
+      severity: "",
+    });
 
 
   const columns = [
@@ -47,14 +53,44 @@ function TableAppSecondary() {
   ];
   const handleActualizarStock = () => {
     if (seleccionados.length === 0) {
-      alert("No hay productos seleccionados para actualizar.");
+      setAlert({
+        show: true,
+        message: "No hay productos bajo stock",
+        severity: "warning",
+      });
       return;
     }
-    dispatch(actualizarStock(seleccionados));
+    dispatch(actualizarStock(seleccionados), setAlert({
+      show: true,
+      message: "Cantidad actualizada",
+      severity: "success",
+    }));
   };
   return (
     <>
     <Paper sx={{ height: 400, width: '100%', display: 'flex', justifyContent: 'center', margin: 'auto',position: "relative", left: "-150px"  }}>
+    {alert.show && (
+              <Snackbar
+                open={alert.show}
+                autoHideDuration={3000}
+                onClose={() => setAlert({ show: false, message: "", severity: "" })}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}  
+                sx={{
+                  width: { xs: "90%", sm: "50%", md: "30%" },
+                  "& .MuiSnackbarContent-root": {
+                    fontSize: { xs: "0.8rem", sm: "1rem" }, 
+                  },
+                }}
+              >
+                <Alert
+                  onClose={() => setAlert({ show: false, message: "", severity: "" })}
+                  severity={alert.severity}
+                  sx={{ width: "100%" }}
+                >
+                  {alert.message}
+                </Alert>
+              </Snackbar>
+            )}
     <DataGrid
       rows={seleccionados}
         columns={columns}

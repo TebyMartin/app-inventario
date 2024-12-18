@@ -14,7 +14,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router-dom';
 
 
+
 const paginationModel = { page: 0, pageSize: 5 };
+
 
 function TableApp({ searchQuery, filterType }) {
   const dispatch = useDispatch();
@@ -114,20 +116,20 @@ function TableApp({ searchQuery, filterType }) {
   ];
 
   return (
-    <Paper sx={{
-      height: 'auto',
+    
+    <Paper   autoHeight
+    rows={filteredProducts}
+    columns={columns}
+    getRowId={(row) => row._id}
+    initialState={{ pagination: { paginationModel } }}
+    pageSizeOptions={[5, 10]}
+    checkboxSelection
+    sx={{
+      border: 0,
       width: '100%',
-      display: 'flex',
-      flexDirection: 'column', // Asegura que los elementos dentro de Paper estén en columna
-      justifyContent: 'center',
-      margin: 'auto',
-      padding: 2, 
-      borderRadius: 2,
-      overflowX: 'auto',
       '@media (max-width: 600px)': {
-        height: 'auto', 
-        padding: 1, 
-      }
+        maxWidth: '100%',
+      },
     }}>
       <DataGrid
         rows={filteredProducts}
@@ -157,24 +159,59 @@ function TableApp({ searchQuery, filterType }) {
           Ir a Carga de Cantidades
         </Button>
       </Box>
-        <ToastContainer/>
-      
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Confirmar Eliminación</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            ¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleConfirmDelete} color="error">
-            Eliminar
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <ToastContainer  position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover
+          draggable
+          toastStyle={{
+            maxWidth: "90%",
+            fontSize: "0.9rem",
+            margin: "10px auto",
+            '@media (min-width: 600px)': {
+              maxWidth: "500px",
+              fontSize: "1rem",
+            },
+          }}/>
+              
+              <Dialog
+              open={openDialog}
+              onClose={handleCloseDialog}
+              BackdropProps={{
+                style: { backgroundColor: 'transparent' }, 
+              }}
+              sx={{
+                position: 'absolute',
+                top: '20%',
+                left: '50%',
+                transform: 'translate(-50%, -20%)',
+                '& .MuiDialog-paper': {
+                  margin: 0,
+                  width: '90%',
+                  maxWidth: '400px',
+                  boxShadow: 'none', 
+                  '@media (max-width: 600px)': {
+                    width: '100%',
+                  },
+                },
+              }}
+            >
+              <DialogTitle>Confirmar Eliminación</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  ¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseDialog} color="primary">
+                  Cancelar
+                </Button>
+                <Button onClick={handleConfirmDelete} color="error">
+                  Eliminar
+                </Button>
+              </DialogActions>
+            </Dialog>
 
 
       <Modal

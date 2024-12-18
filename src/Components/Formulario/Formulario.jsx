@@ -17,13 +17,14 @@ function Formulario() {
 
   return (
     <Card
-      style={{
-        maxWidth: "800px",
-        width: "100%",
-        minWidth: "300px", 
-        alignSelf: "center",
-        margin: "20px auto", 
-      }}
+    sx={{
+      maxWidth: "800px",
+      width: "100%",
+      minWidth: "300px",
+      alignSelf: "center",
+      margin: "20px auto",
+      ml: { xs: -25, sm: -10, md: 30 }, // Márgenes dinámicos para diferentes tamaños de pantalla
+    }}
     >
       <Grid2
         container
@@ -40,6 +41,12 @@ function Formulario() {
             autoHideDuration={3000}
             onClose={() => setAlert({ show: false, message: "", severity: "" })}
             anchorOrigin={{ vertical: "top", horizontal: "right" }}  
+            sx={{
+              width: { xs: "90%", sm: "50%", md: "30%" },
+              "& .MuiSnackbarContent-root": {
+                fontSize: { xs: "0.8rem", sm: "1rem" }, // Ajustar el tamaño de fuente
+              },
+            }}
           >
             <Alert
               onClose={() => setAlert({ show: false, message: "", severity: "" })}
@@ -59,7 +66,6 @@ function Formulario() {
             <ProductionQuantityLimitsSharpIcon />
           </Avatar>
         </Grid2>
-        {/* Inputs distribuidos */}
         <Grid2 container spacing={2}>
           <Grid2 item xs={12} sm={6}>
             <TextField

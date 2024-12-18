@@ -20,6 +20,7 @@ import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 import Footer from '../Footer/Footer';
 import './style.css'
+import { LogoIcon } from '../LogoIcon/Logo';
 
 
 
@@ -86,9 +87,21 @@ function MenuApp({children}) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Inventario de Stock "Mercadito La Riojanita"
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <img 
+              src='/market.png'
+              alt="Logo" 
+              style={{ width: "40px", height: "auto", marginRight: "8px" }} 
+            />
+            <Typography 
+              variant="h6" 
+              noWrap 
+              component="div"
+              sx={{ fontWeight: "bold" }}
+            >
+              Inventario de Stock "Mercadito La Riojanita"
+            </Typography>
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -111,7 +124,7 @@ function MenuApp({children}) {
           </IconButton>
         </div>
         <Divider />
-        
+        <LogoIcon/>
         <Divider />
         <List>
             {menu.map(({ id, titulo, path, icon }) => (
