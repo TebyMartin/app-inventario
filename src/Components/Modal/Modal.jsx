@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Modal as MuiModal, Box, TextField, Button, Typography,  } from "@mui/material";
+import { Modal as MuiModal, Box, TextField, Button, Typography, Alert, Snackbar, } from "@mui/material";
+
 
 const style = {
   position: "absolute",
@@ -10,18 +11,24 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
-};
+}
 
 function Modal({ open, selectedProduct, handleClose, handleUpdate }) {
   const [editedProduct, setEditedProduct] = useState(selectedProduct || {});
 
+  
   const formatDateForInput = (dateString) => {
-    if (!dateString) return ''; 
+    if (!dateString) return ''
     const date = new Date(dateString);
-    if (isNaN(date)) return ''; 
-    return date.toISOString().split('T')[0]; 
-  };
-
+    if (isNaN(date)) return ''
+    const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+    const year = localDate.getFullYear();
+    const month = String(localDate.getMonth() + 1).padStart(2, '0');
+    const day = String(localDate.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+  
+  
   useEffect(() => {
     setEditedProduct(selectedProduct || {}); 
   }, [selectedProduct]);
@@ -29,15 +36,18 @@ function Modal({ open, selectedProduct, handleClose, handleUpdate }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditedProduct((prev) => ({ ...prev, [name]: value }));
-  };
+  }
 
   const handleSubmit = () => {
-    handleUpdate(editedProduct); 
-  };
+    handleUpdate(editedProduct)
+   
+  }
 
   return (
     <MuiModal open={open} onClose={handleClose}>
+        
       <Box sx={style}>
+   
       <Typography
         variant="h6"
         gutterBottom
@@ -88,7 +98,7 @@ function Modal({ open, selectedProduct, handleClose, handleUpdate }) {
           fullWidth
           margin="normal"
         />
-        <TextField
+          <TextField
           label="Fecha de Ingreso"
           name="fechaIngreso"
           value={formatDateForInput(editedProduct.fechaIngreso) || ""}
@@ -99,7 +109,6 @@ function Modal({ open, selectedProduct, handleClose, handleUpdate }) {
           InputLabelProps={{
             shrink: true,
           }}
-          
         />
         <Button
           variant="contained"
@@ -117,8 +126,10 @@ function Modal({ open, selectedProduct, handleClose, handleUpdate }) {
         >
           Actualizar
         </Button>
+        
       </Box>
     </MuiModal>
+  
   );
 }
 

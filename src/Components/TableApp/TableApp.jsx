@@ -49,13 +49,16 @@ function TableApp({ searchQuery, filterType }) {
   }, [dispatch]);
 
   const formatDate = (dateString) => {
+    if (!dateString) return ''
     const date = new Date(dateString);
-    return date.toLocaleDateString('es-AR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    });
+    if (isNaN(date)) return ''
+    const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+    const year = localDate.getFullYear();
+    const month = String(localDate.getMonth() + 1).padStart(2, '0');
+    const day = String(localDate.getDate()).padStart(2, '0');
+    return `${day}/${month}/${year}`;
   };
+  
 
   const handleChecklistClick = (producto) => {
     toast.info(`Agregado "${producto.nombre}". Carga los productos que necesiten actualizacion de stock y cuando termines  aprieta el boton  debajo.`, {

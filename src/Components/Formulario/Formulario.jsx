@@ -23,7 +23,7 @@ function Formulario() {
       minWidth: "300px",
       alignSelf: "center",
       margin: "20px auto",
-      ml: { xs: -25, sm: -10, md: 30 }, // Márgenes dinámicos para diferentes tamaños de pantalla
+      ml: { xs: -25, sm: -10, md: 30 }, 
     }}
     >
       <Grid2
@@ -44,7 +44,7 @@ function Formulario() {
             sx={{
               width: { xs: "90%", sm: "50%", md: "30%" },
               "& .MuiSnackbarContent-root": {
-                fontSize: { xs: "0.8rem", sm: "1rem" }, // Ajustar el tamaño de fuente
+                fontSize: { xs: "0.8rem", sm: "1rem" }, 
               },
             }}
           >
